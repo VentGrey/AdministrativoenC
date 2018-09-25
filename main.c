@@ -1,86 +1,81 @@
-/* Este programa está basado en C11 bajo el estandar ANSI
- * por lo que no requerirá de librerías privativas encontradas
- * en los sistemas operativos */
-
-//Inclusión de bibliotecas (igual la biblioteca estándar "stdlib", no vaya a ser.)
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//---Macros---
 #define MAX 50
 
-//Definimos un arreglo de estructuras para los clientes.
-struct cliente
-{
-  char ID[8]; //Variable de tipo caracter para evitar la entrada de números negativos
-  char nombre [30]; // Ingreso del nombre de al menos 30 caracteres
-  char telefono [10]; // Teléfono manejado como cadena para poder limitarlo a 10 dígitos
-  unsigned int dia; // Las variables de abajo se explican solas
-  unsigned int mes;
-  unsigned int anio;
-}cliente[MAX];
 
-//Prototipos de funciones
+
+//Definimos un arreglo de estructuras para los clientes.
+struct cliente {
+        char ID[8];
+        char nombre [30];
+        char telefono [10];
+        unsigned int dia;
+        unsigned int mes;
+        unsigned int anio;
+} cliente[MAX];
+
+//---Prototipos---
 void cargar(void), guardar(void), buscar(void), muestra(int i);
 void leercad(char * indic, char *s, int cont);
 void borrar(void), intro(void), mostrar(void);
 int busca(char *nombre), menu(void);
 void iniciar_lista(void);
 int busca_libre(void);
-//Función principal
-int main()
-{
-  int opcion;
 
-  iniciar_lista(); //Función para iniciar la lista.
+//---Main---
+int main() {
+        int opcion;
 
-  for(;;) //La flojera de poner un contador o de hacer un ciclo infinito con un while llevan a esto.
-  {
-    opcion = menu(); //Esta función va a tomar la elección del usuario.
+        iniciar_lista();
 
-    switch(opcion)
-    {
-      case 1: intro(); //Función para introducir un dato del usuario
-              break;
+        for(;;) {
+                opcion = menu();
+                switch(opcion) {
+                        case 1: intro();
+                        break;
 
-      case 2: borrar(); //Función para borrar una entrada
-              break;
+                        case 2: borrar();
+                        break;
 
-      case 3: mostrar(); //Función para imprimir la información
-              break;
+                        case 3: mostrar();
+                        break;
 
-      case 4: buscar(); //Función para buscar una entrada
-              break;
+                        case 4: buscar();
+                        break;
 
-      case 5: guardar(); // Función para guardar en el disco
-              break;
+                        case 5: guardar();
+                        break;
 
-      case 6: cargar(); //Función para leer el archivo en el disco
-              break;
+                        case 6: cargar();
+                        break;
 
-      case 7: printf("No pude ordenar la lista :( \n"); return 0;
+                        case 7: printf("No pude ordenar la lista :( \n");
+                        return 0;
 
-      case 8: return 0; //¿Para que molestarnos?
+                        case 8: return 0;
 
-      case 9: printf("\nLicencia: BSD-Clause-3");
-              printf("\nCreado por: Omar Jair Purata");
-              printf("\nUsando C (ANSI, C11), Vim 8.0 & StackOverflow (no pregunten)");
-              printf("\nEste programa pasa a ser propiedad de la Universidad De Guanajuato una vez me pongan 10 en el :)");
-              break;
-      default: printf("Opción no válida");
-               return 0;
-    }
-  }
+                        case 9: printf("\nLicencia: BSD-Clause-3");
+                        printf("\nCreado por: Omar Jair Purata");
+                        printf("\nUsando C (ANSI, C11), Vim 8.0 & \
+                        StackOverflow (no pregunten)");
+                        break;
+
+                        default: printf("Opción no válida");
+                        return 0;
+                }
+        }
 }
 
 void iniciar_lista(void)
 {
-  /* No vimos esto en clase pero el usar la palabra clave "register"
-   * va a guardar una variable (En este caso de tipo entero) en el registro del procesador
-   */
-  register int i;
+        /* No vimos esto en clase pero el usar la palabra clave "register"
+        * va a guardar una variable (En este caso de tipo entero) en el registro del procesador
+        */
+        register int i;
 
-  for (i = 0; i < MAX; i++) *cliente[i].nombre = '\0'; //Un iterador simple para recorrer el arreglo de estructuras
+        for (i = 0; i < MAX; i++) *cliente[i].nombre = '\0'; //Un iterador simple para recorrer el arreglo de estructuras
 }
 
 int menu(void) //No estoy seguro si realmente necesito poner void 2 veces aquí
